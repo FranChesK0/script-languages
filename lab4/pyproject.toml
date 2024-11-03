@@ -7,12 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
 flake8-pyproject = "^1.2.3"
 isort = "^5.13.2"
 mypy = "^1.12.1"
+types-requests = "^2.32.0.20241016"
 
 [tool.black]
 line-length = 90
