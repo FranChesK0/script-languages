@@ -4,8 +4,8 @@ from typing import Final
 
 @dataclasses.dataclass(frozen=True)
 class Config:
-    api_url: Final[str] = "https://jsonplaceholder.typicode.com/posts"
-    database_file_path: Final[str] = "./db/posts.db"
+    API_URL: Final[str] = "https://jsonplaceholder.typicode.com/posts"
+    DATABASE_FILE_PATH: Final[str] = "./db/posts.db"
 
     def __new__(cls) -> "Config":
         if not hasattr(cls, "_instance"):
