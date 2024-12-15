@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "lab5"
+version = "0.1.0"
+description = ""
+authors = ["FranChesK0"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyqt5 = "=5.15.10"
+pyqt5-qt5 = "=5.15.2"
+
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+flake8-pyproject = "^1.2.3"
+isort = "^5.13.2"
+mypy = "^1.13.0"
+
+
+[tool.black]
+line-length = 90
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+py_version = 312
+line_length = 90
+length_sort = true
+multi_line_output = 3
+include_trailing_comma = true
+src_paths = [".", "tests"]
+extend_skip = ["__init__.py"]
+
+[tool.flake8]
+max-line-length = 90
+count = true
+
+[tool.mypy]
+mypy_path = "."
+packages = "tests"
+python_version = "3.12"
+explicit_package_bases = true
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+show_error_codes = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
