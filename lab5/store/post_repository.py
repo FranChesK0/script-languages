@@ -15,6 +15,9 @@ class PostRepository:
         add_one(cls, post: PostAddSchema) -> PostSchema: Add a post to the database.
         add_many(cls, posts: list[PostAddSchema]) -> list[PostSchema]: Add multiple posts to the database.
         find_all(cls, skip: int = 0, limit: int = 100) -> list[PostSchema]: Find all posts in the database.
+        find_one(cls, post_id: int) -> PostSchema | None: Find a post in the database by id.
+        update_one(cls, post: PostSchema) -> PostSchema | None: Update a post in the database by id.
+        delete_one(cls, post_id: int) -> bool: Delete a post in the database by id.
     """
 
     @classmethod
