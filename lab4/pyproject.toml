@@ -7,7 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-requests = "^2.32.3"
 pyqt5 = "=5.15.10"
 pyqt5-qt5 = "=5.15.2"
 
@@ -34,7 +33,7 @@ line_length = 90
 length_sort = true
 multi_line_output = 3
 include_trailing_comma = true
-src_paths = ["src", "tests"]
+src_paths = [".", "tests"]
 extend_skip = ["__init__.py"]
 
 [tool.flake8]
@@ -42,7 +41,7 @@ max-line-length = 90
 count = true
 
 [tool.mypy]
-mypy_path = "src"
+mypy_path = "."
 packages = "tests"
 python_version = "3.12"
 explicit_package_bases = true
