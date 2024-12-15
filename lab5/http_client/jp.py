@@ -1,4 +1,5 @@
 from loguru import logger
+from async_lru import alru_cache
 
 from schemas import PostAddSchema
 
@@ -19,6 +20,7 @@ class JPHTTPClient(HTTPClient):
     def __init__(self, base_url: str) -> None:
         super().__init__(base_url)
 
+    @alru_cache
     async def fetch_posts(self) -> list[PostAddSchema]:
         """
         Fetches posts from the JSONPlaceholder API.
