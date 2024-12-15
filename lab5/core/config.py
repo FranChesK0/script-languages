@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     """
 
     ENV: str = "dev"
-    BASE_URL: str = "http://jsonplaceholder.typicode.com"
+    BASE_URL: str = "https://jsonplaceholder.typicode.com"
     DATABASE_CONNECTION: str = "sqlite+aiosqlite:///:memory:"
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
