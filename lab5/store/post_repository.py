@@ -80,9 +80,9 @@ class PostRepository:
         )
         post_orm = PostORM(**posts.model_dump())
         async with session_maker() as session:
-            post_orm = (await session.execute(query)).scalars().first()
-            if post_orm is not None:
-                return PostSchema.model_validate(post_orm)
+            existing_post = (await session.execute(query)).scalars().first()
+            if existing_post is not None:
+                return PostSchema.model_validate(existing_post)
             session.add(post_orm)
             await session.flush()
             await session.commit()
