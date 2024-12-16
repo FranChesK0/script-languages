@@ -62,6 +62,34 @@ class PostRepository:
 
     @classmethod
     @logger.catch
+    async def lazy_add(cls, posts: PostAddSchema) -> PostSchema:
+        """
+        Add a post to the database if it doesn't exist.
+
+        Args:
+            posts (PostAddSchema): The post to add.
+
+        Returns:
+            PostSchema: The added post.
+        """
+        query = (
+            select(PostORM)
+            .where(PostORM.user_id == posts.user_id)
+            .where(PostORM.title == posts.title)
+            .where(PostORM.body == posts.body)
+        )
+        post_orm = PostORM(**posts.model_dump())
+        async with session_maker() as session:
+            post_orm = (await session.execute(query)).scalars().first()
+            if post_orm is not None:
+                return PostSchema.model_validate(post_orm)
+            session.add(post_orm)
+            await session.flush()
+            await session.commit()
+        return PostSchema.model_validate(post_orm)
+
+    @classmethod
+    @logger.catch
     async def find_all(cls, skip: int = 0, limit: int = -1) -> list[PostSchema]:
         """
         Find all posts in the database.
