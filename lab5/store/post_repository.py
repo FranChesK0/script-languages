@@ -62,19 +62,29 @@ class PostRepository:
 
     @classmethod
     @logger.catch
-    async def find_all(cls, skip: int = 0, limit: int = 100) -> list[PostSchema]:
+    async def find_all(cls, skip: int = 0, limit: int = -1) -> list[PostSchema]:
         """
         Find all posts in the database.
 
         Args:
             skip (int, optional): The number of posts to skip. Defaults to 0.
-            limit (int, optional): The maximum number of posts to return. Defaults to 100.
+            limit (int, optional): The maximum number of posts to return. Defaults to -1 (all posts).
 
         Returns:
             list[PostSchema]: The found posts.
         """
-        logger.info(f"Finding all posts from {skip} to {limit}")
-        query = select(PostORM).offset(skip).limit(limit)
+        if limit == -1 and skip == 0:
+            logger.info(f"Finding all posts.")
+            query = select(PostORM)
+        elif limit == -1:
+            logger.info(f"Finding all posts from {skip}.")
+            query = select(PostORM).offset(skip)
+        elif skip == 0:
+            logger.info(f"Finding all posts with a limit of {limit}.")
+            query = select(PostORM).limit(limit)
+        else:
+            logger.info(f"Finding all posts from {skip} to {limit}.")
+            query = select(PostORM).offset(skip).limit(limit)
         async with session_maker() as session:
             post_orms = (await session.execute(query)).scalars().all()
         return [PostSchema.model_validate(post_orm) for post_orm in post_orms]
