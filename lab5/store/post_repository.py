@@ -111,6 +111,24 @@ class PostRepository:
 
     @classmethod
     @logger.catch
+    async def find_by_title(cls, title: str) -> list[PostSchema]:
+        """
+        Find posts in the database by title.
+
+        Args:
+            title (str): The title of the posts to find.
+
+        Returns:
+            list[PostSchema]: The found posts.
+        """
+        logger.info(f"Finding posts with title: {title}.")
+        query = select(PostORM).where(PostORM.title.like(f"%{title}%"))
+        async with session_maker() as session:
+            post_orms = (await session.execute(query)).scalars().all()
+        return [PostSchema.model_validate(post_orm) for post_orm in post_orms]
+
+    @classmethod
+    @logger.catch
     async def update_one(cls, post: PostSchema) -> PostSchema | None:
         """
         Update a post in the database by id.
