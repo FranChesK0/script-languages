@@ -26,7 +26,15 @@ class HTTPClient:
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        logger.info(f"Closing session for {self._session._base_url}.")
-        logger.debug(f"Exception: {exc_type}, {exc_value}, {traceback}")
+        exc_msg = ""
+        if exc_type is not None:
+            exc_msg += f" type: {exc_type.__name__}"
+        if exc_value is not None:
+            exc_msg += f" value: {exc_value}"
+        if traceback is not None:
+            exc_msg += f" traceback: {traceback}"
+        if exc_msg != "":
+            exc_msg = f" with exception: {exc_msg}"
+        logger.info(f"Closing session for {self._session._base_url}{exc_msg}.")
         if self._session is not None:
             await self._session.close()
